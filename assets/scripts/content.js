@@ -17,6 +17,21 @@ function el(tag, attr = {}, ...children) {
     return node;
 }
 
+// Resolve asset path from XML so it works in dev and build with Vite base
+function resolveAssetPath(p) {
+    if (!p) return p;
+    const s = String(p).trim();
+    // Allow data URLs or absolute URLs
+    if (/^(data:|https?:)/i.test(s)) return s;
+    const base = import.meta.env.BASE_URL || "/";
+    if (s.startsWith("/")) {
+        // Convert "/foo.jpg" to "<BASE_URL>foo.jpg"
+        return new URL(s.slice(1), new URL(base, location.origin)).href;
+    }
+    // Otherwise, treat as relative to BASE_URL
+    return new URL(s, new URL(base, location.origin)).href;
+}
+
 async function loadXML(url){
     const response = await fetch(url, {cache: "no-cache"});
     if (!response.ok) throw new Error(`Failed to fetch XML: ${response.status} ${response.statusText}`);
@@ -40,8 +55,10 @@ function renderInformation(xmlDoc) {
 
     for (const item of items) {
         const type = item.getAttribute("type") || "photo";
-        const src = item.getAttribute("src");
-        const poster = item.getAttribute("poster") || "";
+        const rawSrc = item.getAttribute("src");
+        const rawPoster = item.getAttribute("poster") || "";
+        const src = resolveAssetPath(rawSrc);
+        const poster = rawPoster ? resolveAssetPath(rawPoster) : "";
         const title = item.querySelector("title")?.textContent?.trim() || "Untitled";
         const text = item.querySelector("text")?.textContent?.trim() || "";
 
