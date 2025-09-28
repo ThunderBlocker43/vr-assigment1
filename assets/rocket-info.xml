@@ -1,5 +1,5 @@
 <information>
-    <item type="photo" src="assets/media/crew-quarters.jpg">
+    <item type="photo" src="/crew-quarters.jpg">
         <title>Crew Quarters</title>
         <text>
             The top two floors of the spaceship are reserved for the crews' sleeping quarters.
@@ -10,7 +10,7 @@
         </text>
     </item>
 
-    <item type="photo" src="assets/media/crew-quarters.jpg">
+    <item type="photo" src="/crew-quarters.jpg">
         <title>Crew Quarters</title>
         <text>
             The top two floors of the spaceship are reserved for the crews' sleeping quarters.
