@@ -17,7 +17,6 @@ function el(tag, attr = {}, ...children) {
     return node;
 }
 
-// Resolve asset path from XML so it works in dev and build with Vite base
 function resolveAssetPath(p) {
     if (!p) return p;
     const s = String(p).trim();
@@ -25,10 +24,8 @@ function resolveAssetPath(p) {
     if (/^(data:|https?:)/i.test(s)) return s;
     const base = import.meta.env.BASE_URL || "/";
     if (s.startsWith("/")) {
-        // Convert "/foo.jpg" to "<BASE_URL>foo.jpg"
         return new URL(s.slice(1), new URL(base, location.origin)).href;
     }
-    // Otherwise, treat as relative to BASE_URL
     return new URL(s, new URL(base, location.origin)).href;
 }
 
