@@ -59,28 +59,41 @@ function renderInformation(xmlDoc) {
         const title = item.querySelector("title")?.textContent?.trim() || "Untitled";
         const text = item.querySelector("text")?.textContent?.trim() || "";
 
-        const media =
-            type === "video"
-            ? el("video", {
-                src,
-                poster,
-                controls: true,
-                preload: "metadata",
-                })
-            : el("img", {
-                src,
-                alt: title,
-                loading: "lazy",
-                decoding: "async"
-            });
+        const isNull = type === "null";
+
+        const media = isNull
+            ? null
+            : type === "video"
+                ? el("video", {
+                    src,
+                    poster,
+                    controls: true,
+                    preload: "metadata",
+                    })
+                : el("img", {
+                    src,
+                    alt: title,
+                    loading: "lazy",
+                    decoding: "async"
+                });
+
+        const cardChildren = isNull
+            ? [
+                el("h2", { class: "rocket-title" }, title),
+                el("p", { class: "rocket-text" }, text),
+            ]
+            : [
+                media,
+                el("h2", { class: "rocket-title" }, title),
+                el("p", { class: "rocket-text" }, text),
+            ];
 
         const card = el(
             "article",
-            { class: "rocket-card" },
-            media,
-            el("h2", { class: "rocket-title" }, title),
-            el("p", { class: "rocket-text" }, text)
+            { class: `rocket-card${isNull ? " rocket-card--no-media" : ""}` },
+            ...cardChildren
         );
+
 
         container.append(card);
     }

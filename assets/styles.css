@@ -188,6 +188,19 @@ p {
     text-align: left;
 }
 
+/*No Media*/
+.rocket-card--no-media .rocket-title {
+    grid-row: 1;
+    margin-top: 0;
+    grid-column: 1;
+}
+
+.rocket-card--no-media .rocket-text {
+    grid-row: 2;
+    grid-column: 1;
+}
+
+
 /*----- Size: Large -----*/
 @media (min-width: 900px) {
     .rocket-card {
@@ -214,6 +227,25 @@ p {
     .rocket-text {
         grid-column: 2;
         grid-row: 2;
+    }
+
+    /*No Media*/
+    .rocket-card--no-media {
+        grid-template-columns: 1fr;
+        column-gap: 0;
+    }
+    .rocket-card--no-media .rocket-title,
+    .rocket-card--no-media .rocket-text {
+        grid-column: 1;
+    }
+
+    /* Ensure alternating layout does not reintroduce a second column */
+    #rocket-info .rocket-card.rocket-card--no-media:nth-of-type(even) {
+        grid-template-columns: 1fr;
+    }
+    #rocket-info .rocket-card.rocket-card--no-media:nth-of-type(even) .rocket-title,
+    #rocket-info .rocket-card.rocket-card--no-media:nth-of-type(even) .rocket-text {
+        grid-column: 1;
     }
 }
 
